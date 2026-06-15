@@ -1,0 +1,401 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-sans);}
+.page{max-width:680px;margin:0 auto;}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);position:sticky;top:0;z-index:10;}
+.logo{font-size:18px;font-weight:500;color:var(--color-text-primary);}
+.logo span{color:#D4537E;}
+.nav-links{display:flex;gap:1.5rem;}
+.nav-links a{font-size:13px;color:var(--color-text-secondary);text-decoration:none;cursor:pointer;}
+.nav-links a:hover{color:var(--color-text-primary);}
+.tab-bar{display:flex;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);overflow-x:auto;}
+.tab{padding:.75rem 1.25rem;font-size:13px;font-weight:500;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:#D4537E;border-bottom-color:#D4537E;}
+.section{display:none;padding:1.25rem;}
+.section.active{display:block;}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#FBEAF0 0%,#F4C0D1 100%);border-radius:var(--border-radius-lg);padding:2rem 1.5rem;text-align:center;margin-bottom:1.5rem;}
+.hero h1{font-size:28px;font-weight:500;color:#4B1528;margin-bottom:.5rem;}
+.hero p{color:#993556;font-size:15px;margin-bottom:1.25rem;}
+.btn-primary{background:#D4537E;color:#fff;border:none;padding:.6rem 1.5rem;border-radius:var(--border-radius-md);font-size:14px;font-weight:500;cursor:pointer;}
+.btn-primary:hover{background:#993556;}
+.btn-outline{background:transparent;color:#D4537E;border:1px solid #D4537E;padding:.6rem 1.5rem;border-radius:var(--border-radius-md);font-size:14px;font-weight:500;cursor:pointer;margin-left:.5rem;}
+
+/* Booking form */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+label{font-size:13px;color:var(--color-text-secondary);font-weight:500;}
+input,select,textarea{font-size:14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:.5rem .75rem;background:var(--color-background-primary);color:var(--color-text-primary);width:100%;}
+textarea{resize:vertical;min-height:80px;}
+.section-title{font-size:16px;font-weight:500;margin-bottom:1rem;color:var(--color-text-primary);}
+.form-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem;}
+.budget-slider{width:100%;}
+.budget-display{font-size:22px;font-weight:500;color:#D4537E;margin-top:.25rem;}
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.25rem;}
+.theme-chip{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:.4rem .6rem;font-size:12px;text-align:center;cursor:pointer;color:var(--color-text-secondary);}
+.theme-chip:hover,.theme-chip.sel{background:#FBEAF0;border-color:#D4537E;color:#993556;font-weight:500;}
+
+/* Ad samples */
+.ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.ad-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;}
+.ad-img{height:130px;display:flex;align-items:center;justify-content:center;font-size:36px;}
+.ad-img.pink{background:#FBEAF0;}
+.ad-img.gold{background:#FAEEDA;}
+.ad-img.mint{background:#E1F5EE;}
+.ad-img.lav{background:#EEEDFE;}
+.ad-body{padding:.75rem;}
+.ad-platform{font-size:10px;font-weight:500;color:#D4537E;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.25rem;}
+.ad-headline{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:.25rem;line-height:1.4;}
+.ad-copy{font-size:11px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:.5rem;}
+.ad-tag{font-size:10px;background:#FBEAF0;color:#993556;padding:2px 7px;border-radius:20px;margin-right:3px;margin-bottom:3px;display:inline-block;}
+.ad-cta{font-size:11px;font-weight:500;color:#D4537E;background:#FBEAF0;border:none;padding:.3rem .75rem;border-radius:var(--border-radius-md);cursor:pointer;margin-top:.5rem;display:inline-block;}
+
+/* Full-width ad */
+.ad-wide{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;margin-bottom:1rem;}
+.ad-wide-img{height:110px;display:flex;align-items:center;justify-content:center;font-size:40px;}
+.ad-wide-img.blue-g{background:#E6F1FB;}
+.ad-wide-body{padding:.75rem 1rem;}
+.copy-btn{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);padding:.25rem .6rem;border-radius:var(--border-radius-md);cursor:pointer;float:right;}
+.copy-btn:hover{color:var(--color-text-primary);}
+.note{font-size:12px;color:var(--color-text-secondary);margin-bottom:1rem;line-height:1.6;}
+
+/* Packages */
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;}
+.pkg{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem;text-align:center;}
+.pkg.featured{border:2px solid #D4537E;}
+.pkg-name{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.25rem;}
+.pkg-price{font-size:22px;font-weight:500;color:#D4537E;margin-bottom:.5rem;}
+.pkg-feat{font-size:11px;color:var(--color-text-secondary);line-height:1.8;}
+.badge{font-size:10px;background:#FBEAF0;color:#993556;padding:2px 8px;border-radius:20px;margin-bottom:.5rem;display:inline-block;}
+.confirm-box{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1.25rem;text-align:center;margin-top:1rem;}
+.confirm-box h3{font-size:16px;font-weight:500;margin-bottom:.5rem;}
+.confirm-box p{font-size:13px;color:var(--color-text-secondary);}
+</style>
+
+<h2 class="sr-only">Sweet Blooms Cakes & Events — booking site and social media ad samples</h2>
+
+<div class="page">
+  <nav class="nav">
+    <span class="logo">Sweet<span>Blooms</span> 🎂</span>
+    <div class="nav-links">
+      <a onclick="showTab('home')">Home</a>
+      <a onclick="showTab('book')">Book</a>
+      <a onclick="showTab('ads')">Social Ads</a>
+      <a onclick="showTab('packages')">Packages</a>
+    </div>
+  </nav>
+
+  <div class="tab-bar">
+    <div class="tab active" id="tab-home" onclick="showTab('home')"><i class="ti ti-home" aria-hidden="true"></i> Home</div>
+    <div class="tab" id="tab-book" onclick="showTab('book')"><i class="ti ti-calendar" aria-hidden="true"></i> Book Event</div>
+    <div class="tab" id="tab-ads" onclick="showTab('ads')"><i class="ti ti-photo" aria-hidden="true"></i> Social Ads</div>
+    <div class="tab" id="tab-packages" onclick="showTab('packages')"><i class="ti ti-star" aria-hidden="true"></i> Packages</div>
+  </div>
+
+  <!-- HOME -->
+  <div class="section active" id="section-home">
+    <div class="hero">
+      <h1>Custom Cakes & Magical Events 🎂✨</h1>
+      <p>From birthdays to weddings — we make every moment deliciously unforgettable.</p>
+      <button class="btn-primary" onclick="showTab('book')">Book Your Event</button>
+      <button class="btn-outline" onclick="showTab('packages')">View Packages</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem;">
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem;text-align:center;">
+        <div style="font-size:24px;margin-bottom:.25rem;">🎂</div>
+        <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);">Custom Cakes</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);margin-top:.25rem;">Handcrafted for every occasion</div>
+      </div>
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem;text-align:center;">
+        <div style="font-size:24px;margin-bottom:.25rem;">🎉</div>
+        <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);">Event Styling</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);margin-top:.25rem;">Full décor & setup included</div>
+      </div>
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem;text-align:center;">
+        <div style="font-size:24px;margin-bottom:.25rem;">📸</div>
+        <div style="font-size:13px;font-weight:500;color:var(--color-text-primary);">Photo Booths</div>
+        <div style="font-size:11px;color:var(--color-text-secondary);margin-top:.25rem;">Memories made forever</div>
+      </div>
+    </div>
+    <p class="section-title">What clients say</p>
+    <div style="border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem;margin-bottom:.75rem;">
+      <p style="font-size:13px;color:var(--color-text-primary);line-height:1.6;">"The cake was absolutely stunning and tasted even better! SweetBlooms made my daughter's 7th birthday a fairy tale." ⭐⭐⭐⭐⭐</p>
+      <p style="font-size:11px;color:var(--color-text-secondary);margin-top:.5rem;">— Maria Santos, Quezon City</p>
+    </div>
+    <div style="border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem;">
+      <p style="font-size:13px;color:var(--color-text-primary);line-height:1.6;">"They handled everything — cake, decor, setup, cleanup. 10/10 would book again for our anniversary!" ⭐⭐⭐⭐⭐</p>
+      <p style="font-size:11px;color:var(--color-text-secondary);margin-top:.5rem;">— Carlo & Jen Reyes, BGC</p>
+    </div>
+  </div>
+
+  <!-- BOOK EVENT -->
+  <div class="section" id="section-book">
+    <p class="section-title">Book your event</p>
+    <p class="note">Fill in the details below and we'll confirm your booking within 24 hours. 💌</p>
+
+    <div class="form-card">
+      <p style="font-size:13px;font-weight:500;margin-bottom:.75rem;color:var(--color-text-primary);">Event details</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Your name</label>
+          <input type="text" placeholder="e.g. Maria Santos" />
+        </div>
+        <div class="form-group">
+          <label>Contact number</label>
+          <input type="tel" placeholder="+63 9XX XXX XXXX" />
+        </div>
+        <div class="form-group">
+          <label><i class="ti ti-calendar" aria-hidden="true" style="font-size:14px;vertical-align:-2px;margin-right:3px;"></i>Event date</label>
+          <input type="date" id="event-date" />
+        </div>
+        <div class="form-group">
+          <label><i class="ti ti-clock" aria-hidden="true" style="font-size:14px;vertical-align:-2px;margin-right:3px;"></i>Event time</label>
+          <input type="time" />
+        </div>
+        <div class="form-group full">
+          <label><i class="ti ti-map-pin" aria-hidden="true" style="font-size:14px;vertical-align:-2px;margin-right:3px;"></i>Venue / Place</label>
+          <input type="text" placeholder="e.g. Our home, Makati events hall, etc." />
+        </div>
+        <div class="form-group full">
+          <label>Event type</label>
+          <select>
+            <option value="">Select event type…</option>
+            <option>Birthday party</option>
+            <option>Wedding reception</option>
+            <option>Debut / 18th birthday</option>
+            <option>Christening / baptism</option>
+            <option>Kids' party</option>
+            <option>Bridal shower</option>
+            <option>Baby shower</option>
+            <option>Anniversary</option>
+            <option>Corporate event</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <p style="font-size:13px;font-weight:500;margin-bottom:.75rem;color:var(--color-text-primary);">Choose a theme</p>
+      <div class="theme-grid" id="themes">
+        <div class="theme-chip" onclick="pickTheme(this)">🌸 Floral Garden</div>
+        <div class="theme-chip" onclick="pickTheme(this)">👸 Princess</div>
+        <div class="theme-chip" onclick="pickTheme(this)">🦄 Unicorn</div>
+        <div class="theme-chip" onclick="pickTheme(this)">🌊 Ocean / Mermaid</div>
+        <div class="theme-chip" onclick="pickTheme(this)">🌿 Boho Garden</div>
+        <div class="theme-chip" onclick="pickTheme(this)">✨ Glam / Gold</div>
+        <div class="theme-chip" onclick="pickTheme(this)">🎮 Gaming</div>
+        <div class="theme-chip" onclick="pickTheme(this)">🦸 Superhero</div>
+        <div class="theme-chip" onclick="pickTheme(this)">🏰 Enchanted</div>
+        <div class="theme-chip" onclick="pickTheme(this)">🍭 Candy / Sweets</div>
+        <div class="theme-chip" onclick="pickTheme(this)">🌙 Celestial</div>
+        <div class="theme-chip" onclick="pickTheme(this)">🎨 Custom</div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <p style="font-size:13px;font-weight:500;margin-bottom:.5rem;color:var(--color-text-primary);">Budget range</p>
+      <input type="range" class="budget-slider" min="3000" max="100000" step="1000" value="15000" oninput="updateBudget(this.value)" />
+      <div class="budget-display" id="budget-display">₱15,000</div>
+      <p style="font-size:11px;color:var(--color-text-secondary);margin-top:.25rem;">Drag to set your approximate budget. Our team will suggest the best package for you.</p>
+    </div>
+
+    <div class="form-card">
+      <p style="font-size:13px;font-weight:500;margin-bottom:.75rem;color:var(--color-text-primary);">Add-ons & notes</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Number of guests</label>
+          <input type="number" placeholder="e.g. 50" min="1" />
+        </div>
+        <div class="form-group">
+          <label>Cake size / tiers</label>
+          <select>
+            <option>1 tier (6")</option>
+            <option>1 tier (8")</option>
+            <option>2 tier</option>
+            <option>3 tier</option>
+            <option>Custom</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Special requests / message on cake</label>
+          <textarea placeholder="e.g. 'Happy 7th Birthday Sofia! 🌸' or any dietary needs, design ideas…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" style="width:100%;padding:.75rem;" onclick="submitForm()">
+      <i class="ti ti-send" aria-hidden="true" style="font-size:14px;vertical-align:-2px;margin-right:4px;"></i>
+      Send booking inquiry
+    </button>
+    <div id="confirm-msg" style="display:none;" class="confirm-box">
+      <div style="font-size:28px;margin-bottom:.5rem;">🎉</div>
+      <h3>Inquiry sent!</h3>
+      <p>We'll reach out within 24 hours to confirm your booking. Check your messages!</p>
+    </div>
+  </div>
+
+  <!-- SOCIAL ADS -->
+  <div class="section" id="section-ads">
+    <p class="section-title">Ready-to-post social media ads</p>
+    <p class="note">Copy these captions and pair with your best cake/event photos. Tap the copy button on each ad to grab the text. 📋</p>
+
+    <div class="ad-grid">
+      <div class="ad-card">
+        <div class="ad-img pink">🎂</div>
+        <div class="ad-body">
+          <div class="ad-platform">Facebook · Birthday</div>
+          <div class="ad-headline">Make their birthday unforgettable! 🎂</div>
+          <div class="ad-copy" id="ad1t">Your little one deserves a cake as magical as they are! ✨ Custom designs, dreamy themes, and flavors they'll love. DM us or tap the link to book! 💕
+#CustomCakes #BirthdayCake #Manila #SweetBlooms</div>
+          <button class="ad-cta" onclick="copyAd('ad1t',this)">Copy caption ↗</button>
+        </div>
+      </div>
+      <div class="ad-card">
+        <div class="ad-img gold">💍</div>
+        <div class="ad-body">
+          <div class="ad-platform">Instagram · Wedding</div>
+          <div class="ad-headline">Your dream wedding cake awaits 💍</div>
+          <div class="ad-copy" id="ad2t">Elegance in every tier. We design wedding cakes that match your love story — stunning to look at, heavenly to taste. Let's create something beautiful together. 🌸
+#WeddingCake #BridalCake #WeddingPH #SweetBlooms</div>
+          <button class="ad-cta" onclick="copyAd('ad2t',this)">Copy caption ↗</button>
+        </div>
+      </div>
+      <div class="ad-card">
+        <div class="ad-img mint">🌿</div>
+        <div class="ad-body">
+          <div class="ad-platform">Facebook · Events</div>
+          <div class="ad-headline">Full event styling done for you! 🎉</div>
+          <div class="ad-copy" id="ad3t">Balloon arches, custom backdrops, cake tables & more — we handle it all so you can enjoy the party! 🎊 Message us your date and theme. Slots are filling fast!
+#EventStyling #PartyDecor #ManilaPH #SweetBlooms</div>
+          <button class="ad-cta" onclick="copyAd('ad3t',this)">Copy caption ↗</button>
+        </div>
+      </div>
+      <div class="ad-card">
+        <div class="ad-img lav">🦄</div>
+        <div class="ad-body">
+          <div class="ad-platform">TikTok / Reels</div>
+          <div class="ad-headline">Wait till you see the reveal! 🦄✨</div>
+          <div class="ad-copy" id="ad4t">POV: Your child's birthday cake just made the whole party scream 😱🎂 Unicorn cakes, princess themes, galaxy designs — we do it all. Book now before your date is taken! 💜
+#CakeReveal #KidsParty #TikTokPH #SweetBlooms</div>
+          <button class="ad-cta" onclick="copyAd('ad4t',this)">Copy caption ↗</button>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:13px;font-weight:500;margin:1.25rem 0 .75rem;color:var(--color-text-primary);">More ad templates</p>
+
+    <div class="ad-wide">
+      <div class="ad-wide-img blue-g">🎓</div>
+      <div class="ad-wide-body">
+        <button class="copy-btn" onclick="copyAd('ad5t',this)">Copy ↗</button>
+        <div class="ad-platform">Facebook · Graduation</div>
+        <div class="ad-headline" style="font-size:14px;">Celebrate their achievement with a graduation cake! 🎓🎉</div>
+        <div class="ad-copy" id="ad5t" style="font-size:12px;">They worked so hard — now let's celebrate in the sweetest way! 🍰 Custom graduation cakes with their school colors, name, and message. Order now and surprise your grad!
+📩 DM us or call/Viber: [YOUR NUMBER]
+🔗 Link in bio to book
+#GraduationCake #GradParty #CustomCake #PH</div>
+      </div>
+    </div>
+
+    <div class="ad-wide">
+      <div class="ad-wide-img" style="background:#E1F5EE;">👶</div>
+      <div class="ad-wide-body">
+        <button class="copy-btn" onclick="copyAd('ad6t',this)">Copy ↗</button>
+        <div class="ad-platform">Instagram / Facebook · Christening</div>
+        <div class="ad-headline" style="font-size:14px;">A blessed celebration deserves the most beautiful cake 🙏👶</div>
+        <div class="ad-copy" id="ad6t" style="font-size:12px;">Welcome your little one with an angel-themed christening cake made with love. 🤍 Elegant, personalized, and absolutely divine. We also style your baptism venue — florals, balloons & all!
+📩 Message us your date today. Limited slots monthly!
+#ChristeningCake #BaptismPH #BabyShower #SweetBlooms</div>
+      </div>
+    </div>
+
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem;margin-top:.75rem;">
+      <p style="font-size:12px;font-weight:500;margin-bottom:.5rem;color:var(--color-text-primary);">VA posting tips 💡</p>
+      <p style="font-size:11px;color:var(--color-text-secondary);line-height:1.8;">• Post 3–5x per week: Mon, Wed, Fri + weekend stories<br>• Always pair caption with a high-quality photo or video<br>• Pin your best-performing post to top of profile<br>• Use Reels/TikTok for cake reveals — they get huge reach<br>• Reply to every comment within 1 hour for best algorithm results<br>• Add your booking link to every bio (Linktree works great)</p>
+    </div>
+  </div>
+
+  <!-- PACKAGES -->
+  <div class="section" id="section-packages">
+    <p class="section-title">Choose your package</p>
+    <p class="note">All packages include a custom cake. Events packages add full styling & setup. 🎊</p>
+
+    <p style="font-size:13px;font-weight:500;margin-bottom:.75rem;">🎂 Cake-only packages</p>
+    <div class="pkg-grid" style="margin-bottom:1.25rem;">
+      <div class="pkg">
+        <div class="pkg-name">Classic</div>
+        <div class="pkg-price">₱1,500</div>
+        <div class="pkg-feat">6" single tier<br>1 fondant design<br>Basic message<br>2–3 flavors</div>
+      </div>
+      <div class="pkg featured">
+        <div class="badge">Most popular</div>
+        <div class="pkg-name">Signature</div>
+        <div class="pkg-price">₱3,500</div>
+        <div class="pkg-feat">2-tier cake<br>Full theme design<br>Custom toppers<br>All flavors</div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-name">Prestige</div>
+        <div class="pkg-price">₱7,500+</div>
+        <div class="pkg-feat">3+ tiers<br>Sculpted & detailed<br>Premium flowers<br>Priority slot</div>
+      </div>
+    </div>
+
+    <p style="font-size:13px;font-weight:500;margin-bottom:.75rem;">🎉 Full event packages</p>
+    <div class="pkg-grid">
+      <div class="pkg">
+        <div class="pkg-name">Starter</div>
+        <div class="pkg-price">₱8,000</div>
+        <div class="pkg-feat">Cake + balloon arch<br>Backdrop<br>Up to 30 pax<br>3hr setup</div>
+      </div>
+      <div class="pkg featured">
+        <div class="badge">Best value</div>
+        <div class="pkg-name">Bloom</div>
+        <div class="pkg-price">₱18,000</div>
+        <div class="pkg-feat">Cake + full styling<br>Floral + balloons<br>Up to 80 pax<br>Photo booth</div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-name">Grand</div>
+        <div class="pkg-price">₱35,000+</div>
+        <div class="pkg-feat">All-in styling<br>Catering referral<br>100+ pax<br>Coordinator</div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.25rem;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem;text-align:center;">
+      <p style="font-size:14px;color:var(--color-text-primary);margin-bottom:.75rem;">Not sure which to pick? Let us help! 🌸</p>
+      <button class="btn-primary" onclick="showTab('book')">Get a custom quote</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('section-'+id).classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+function pickTheme(el){
+  document.querySelectorAll('.theme-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function updateBudget(v){
+  document.getElementById('budget-display').textContent='₱'+Number(v).toLocaleString();
+}
+function submitForm(){
+  document.getElementById('confirm-msg').style.display='block';
+  document.getElementById('confirm-msg').scrollIntoView({behavior:'smooth'});
+}
+function copyAd(id,btn){
+  const txt=document.getElementById(id).innerText;
+  navigator.clipboard.writeText(txt).then(()=>{
+    btn.textContent='Copied! ✓';
+    setTimeout(()=>btn.textContent='Copy caption ↗',2000);
+  }).catch(()=>{
+    btn.textContent='Select & copy manually';
+  });
+}
+</script>
